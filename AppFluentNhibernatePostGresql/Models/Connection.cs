@@ -71,8 +71,8 @@ namespace AppFluentNhibernatePostGresql.Models
         }
 
         public T Find<T>(object id, LockMode lockMode)
-        {
-            return session.Get<T>(id, lockMode);
+        {            
+            return session.Get<T>(id, lockMode); 
         }
 
         public async Task<T> FindAsync<T>(object id)
@@ -130,14 +130,19 @@ namespace AppFluentNhibernatePostGresql.Models
 
         public IList SqlQuery(string sql)
         {
-            return session.CreateSQLQuery(sql).List();
+            return CreateSqlQuery(sql).List();
+        }
+
+        public ISQLQuery CreateSqlQuery(string sql)
+        {
+            return session.CreateSQLQuery(sql);
         }
 
         public IQuery Query(string sql)
         {            
             return session.CreateQuery(sql);
         }
-
+        
         public bool Delete<T>(T model)
         {
             try
@@ -200,6 +205,11 @@ namespace AppFluentNhibernatePostGresql.Models
                 query = query.And(w);
             }
             return query.RowCountInt64();
+        }
+
+        public IQueryOver<T, T> QueryOver<T>() where T : class
+        {
+            return session.QueryOver<T>();
         }
     }
 }

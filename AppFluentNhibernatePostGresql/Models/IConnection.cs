@@ -27,8 +27,10 @@ namespace AppFluentNhibernatePostGresql.Models
         ISessionFactory SessionFactory();
 
         IList SqlQuery(string sql);
-
+        ISQLQuery CreateSqlQuery(string sql);
+        
         IQuery Query(string sql);
+        IQueryOver<T, T> QueryOver<T>() where T : class;
 
         bool Delete<T>(T model);
         Task<bool> DeleteAsync<T>(T model);
